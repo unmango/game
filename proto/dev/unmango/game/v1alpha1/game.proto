@@ -1,3 +1,0 @@
-syntax = "proto3";
-
-package dev.unmango.game.v1alpha1;
