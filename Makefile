@@ -10,5 +10,8 @@ build: ${PROTO_SRC}
 fmt: ${PROTO_SRC}
 	$(BUF) format --write $?
 
+lint: ${PROTO_SRC}
+	$(BUF) lint $?
+
 tidy: go.mod ${GO_SRC}
 	go mod tidy
