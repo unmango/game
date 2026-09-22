@@ -32,6 +32,7 @@
         { pkgs, system, ... }:
         let
           version = "0.0.1";
+          go = pkgs.go_1_27;
         in
         {
           _module.args.pkgs = import inputs.nixpkgs {
@@ -41,19 +42,21 @@
             ];
           };
 
-          packages.default = pkgs.callPackage ./nix { inherit version; };
+          packages.default = pkgs.callPackage ./nix { inherit go version; };
 
           devShells.default = pkgs.mkShellNoCC {
-            packages = with pkgs; [
+            packages = [
+              go
+              (pkgs.gomod2nix.override { inherit go; })
+            ]
+            ++ (with pkgs; [
               buf
               direnv
-              go
-              gomod2nix
               gopls
               ginkgo
               gnumake
               nixfmt
-            ];
+            ]);
           };
 
           treefmt.programs = {
