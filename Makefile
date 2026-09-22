@@ -5,6 +5,9 @@ build:
 	nix build .#
 	buf build $?
 
+generate gen:
+	buf generate
+
 test:
 	go tool ginkgo run -r
 

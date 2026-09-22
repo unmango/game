@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package dev.unmango.game.v1alpha1;
+
+import "google/protobuf/timestamp.proto";
+
+// IdentityService exposes the facts that make this server one player.
+service IdentityService {
+  rpc GetIdentity(GetIdentityRequest) returns (GetIdentityResponse);
+}
+
+message GetIdentityRequest {}
+
+message GetIdentityResponse {
+  // The ed25519 public key that identifies this server to other servers.
+  bytes public_key = 1;
+  // When the server was first started.
+  google.protobuf.Timestamp created_at = 2;
+}
