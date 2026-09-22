@@ -1,17 +1,27 @@
-BUF    := go tool buf
-DEVCTL := go tool devctl
+PROTO_SRC ?= $(shell buf ls-files)
+GO_SRC    ?= $(shell find . -name '*.go')
 
-GO_SRC    != $(DEVCTL) list --go
-PROTO_SRC != $(BUF) ls-files
+build:
+	nix build .#
+	buf build $?
 
-build: ${PROTO_SRC}
-	$(BUF) build $?
+test:
+	go tool ginkgo run -r
 
-fmt: ${PROTO_SRC}
-	$(BUF) format --write $?
+update:
+	nix flake update
 
-lint: ${PROTO_SRC}
-	$(BUF) lint $?
+check lint:
+	nix flake check
+	buf lint $?
 
-tidy: go.mod ${GO_SRC}
+format fmt:
+	nix fmt
+
+tidy: go.sum nix/gomod2nix.toml
+
+go.sum: go.mod ${GO_SRC}
 	go mod tidy
+
+nix/gomod2nix.toml: go.sum ${GO_SRC}
+	gomod2nix generate --dir ${CURDIR} --outdir ${@D}
