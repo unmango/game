@@ -1,9 +1,17 @@
 schema = 3
 
 [mod]
+  [mod.'github.com/go-logr/logr']
+    version = 'v1.4.2'
+    hash = 'sha256-/W6qGilFlZNTb9Uq48xGZ4IbsVeSwJiAMLw4wiNYHLI='
+
   [mod.'github.com/go-task/slim-sprig/v3']
     version = 'v3.0.0'
     hash = 'sha256-vCCw4MXVBm33VNLXcOBccVDD1CSnzDvDdWB6w5FN1cA='
+
+  [mod.'github.com/google/go-cmp']
+    version = 'v0.7.0'
+    hash = 'sha256-JbxZFBFGCh/Rj5XZ1vG94V2x7c18L8XKB0N9ZD5F2rM='
 
   [mod.'github.com/google/pprof']
     version = 'v0.0.0-20250418163039-24c5476c6587'
@@ -13,6 +21,10 @@ schema = 3
     version = 'v2.23.4'
     hash = 'sha256-AVq5cBqBhja/BMSMHqeLkXjmYV8+ddTRthiGWt28c38='
 
+  [mod.'github.com/onsi/gomega']
+    version = 'v1.36.3'
+    hash = 'sha256-gKaNfZusW1jdISyxfESwwWT/4RiFHF+1Zz7XmFgkTPk='
+
   [mod.'github.com/stretchr/testify']
     version = 'v1.10.0'
     hash = 'sha256-fJ4gnPr0vnrOhjQYQwJ3ARDKPsOtA7d4olQmQWR+wpI='
@@ -20,6 +32,14 @@ schema = 3
   [mod.'go.uber.org/automaxprocs']
     version = 'v1.6.0'
     hash = 'sha256-a/Agm+kM9x+VRo0CYyTL3ipUYv9Glrc4NeGSZJdpobA='
+
+  [mod.'golang.org/x/net']
+    version = 'v0.39.0'
+    hash = 'sha256-IP29+yGphWKUT7wHTyzqA2rnRT4AJ7oWcT6NKLzkWcM='
+
+  [mod.'golang.org/x/sys']
+    version = 'v0.32.0'
+    hash = 'sha256-c9RRnyKQy9Kl8hpbtcgkm1O5H7gOdk9Rv925F8fZS6E='
 
   [mod.'golang.org/x/text']
     version = 'v0.24.0'
@@ -32,3 +52,7 @@ schema = 3
   [mod.'google.golang.org/protobuf']
     version = 'v1.36.6'
     hash = 'sha256-lT5qnefI5FDJnowz9PEkAGylH3+fE+A3DJDkAyy9RMc='
+
+  [mod.'gopkg.in/yaml.v3']
+    version = 'v3.0.1'
+    hash = 'sha256-FqL9TKYJ0XkNwJFnq9j0VvJ5ZUU1RvH/52h/f5bkYAU='
