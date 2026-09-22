@@ -1,9 +1,9 @@
-PROTO_SRC != $(BUF) ls-files
-GO_SRC ?= $(shell find . -name '*.go')
+PROTO_SRC ?= $(shell buf ls-files)
+GO_SRC    ?= $(shell find . -name '*.go')
 
 build:
 	nix build .#
-	$(BUF) build $?
+	buf build $?
 
 test:
 	go tool ginkgo run -r

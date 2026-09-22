@@ -5,7 +5,7 @@
   version,
 }:
 buildGoApplication {
-  pname = "";
+  pname = "game";
   inherit version;
 
   src = lib.cleanSource ../.;

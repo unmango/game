@@ -37,15 +37,15 @@
           _module.args.pkgs = import inputs.nixpkgs {
             inherit system;
             overlays = with inputs; [
-							gomod2nix.overlays.default
-						];
+              gomod2nix.overlays.default
+            ];
           };
 
           packages.default = pkgs.callPackage ./nix { inherit version; };
 
           devShells.default = pkgs.mkShellNoCC {
             packages = with pkgs; [
-							buf
+              buf
               direnv
               go
               gomod2nix
