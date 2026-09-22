@@ -58,6 +58,8 @@
               direnv
               gopls
               ginkgo
+              protoc-gen-go
+              protoc-gen-connect-go
               gnumake
               nixfmt
             ]);

@@ -23,6 +23,7 @@ make test       # go tool ginkgo run -r
 make check      # nix flake check plus buf lint
 make fmt        # nix fmt (treefmt: gofmt, nixfmt, actionlint)
 make tidy       # go mod tidy and regenerate nix/gomod2nix.toml
+make generate   # buf generate into gen/
 make update     # nix flake update
 ```
 
@@ -35,14 +36,17 @@ proto/dev/unmango/game/v1alpha1/   protobuf messages and services, module buf.bu
 num/                               mantissa and exponent number type
 seed/                              path addressed seed derivation
 curve/                             curve evaluation, cumulative cost, inversion, time advance
+identity/                          root seed, creation time, and keypair persistence
+server/                            ConnectRPC handlers over the pure packages
+gen/                               buf generated Go code, regenerated with make generate
 cmd/game/                          the server binary
 docs/design/                       design documents
 docs/decisions/                    architecture decision records
 nix/                               package derivation and gomod2nix lock
 ```
 
-The Go packages are pure: no I/O, no clock, no global state.
-`cmd/game` is the only place that touches the filesystem or the network.
+The `num`, `seed`, and `curve` packages are pure: no I/O, no clock, no global state.
+`identity` and `cmd/game` are the only places that touch the filesystem or the network.
 The proto module is the public contract, and consumers import the generated code from the Buf Schema Registry rather than from this module.
 
 Every numeric result is a deterministic function of the root seed and the request.
