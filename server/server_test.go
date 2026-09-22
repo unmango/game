@@ -14,6 +14,7 @@ import (
 	gamev1alpha1 "github.com/unmango/game/gen/dev/unmango/game/v1alpha1"
 	"github.com/unmango/game/gen/dev/unmango/game/v1alpha1/gamev1alpha1connect"
 
+	"github.com/unmango/game/convert"
 	"github.com/unmango/game/identity"
 	"github.com/unmango/game/seed"
 	"github.com/unmango/game/server"
@@ -49,14 +50,14 @@ var _ = Describe("Handler", func() {
 	It("evaluates a curve", func() {
 		res, err := calc.Evaluate(ctx, connect.NewRequest(&gamev1alpha1.EvaluateRequest{Curve: expCurve, N: 10}))
 		Expect(err).NotTo(HaveOccurred())
-		got := server.NumberFromProto(res.Msg.GetValue()).Float64()
+		got := convert.NumberFromProto(res.Msg.GetValue()).Float64()
 		Expect(got).To(BeNumerically("~", 10*math.Pow(1.15, 10), 1e-9))
 	})
 
 	It("sums a curve", func() {
 		res, err := calc.Cumulative(ctx, connect.NewRequest(&gamev1alpha1.CumulativeRequest{Curve: expCurve, From: 0, To: 3}))
 		Expect(err).NotTo(HaveOccurred())
-		Expect(server.NumberFromProto(res.Msg.GetValue()).Float64()).To(BeNumerically("~", 34.725, 1e-9))
+		Expect(convert.NumberFromProto(res.Msg.GetValue()).Float64()).To(BeNumerically("~", 34.725, 1e-9))
 	})
 
 	It("inverts a curve", func() {
@@ -69,7 +70,7 @@ var _ = Describe("Handler", func() {
 		rate := &gamev1alpha1.Curve{Family: &gamev1alpha1.Curve_Linear{Linear: &gamev1alpha1.Linear{Intercept: &gamev1alpha1.Number{Mantissa: 2}}}}
 		res, err := calc.Advance(ctx, connect.NewRequest(&gamev1alpha1.AdvanceRequest{Rate: rate, Level: 0, Elapsed: durationpb.New(90 * time.Second)}))
 		Expect(err).NotTo(HaveOccurred())
-		Expect(server.NumberFromProto(res.Msg.GetValue()).Float64()).To(BeNumerically("~", 180, 1e-9))
+		Expect(convert.NumberFromProto(res.Msg.GetValue()).Float64()).To(BeNumerically("~", 180, 1e-9))
 	})
 
 	It("rejects a curve with no family", func() {
