@@ -37,6 +37,7 @@ num/                               mantissa and exponent number type
 seed/                              path addressed seed derivation
 curve/                             curve evaluation, cumulative cost, inversion, time advance
 identity/                          root seed, creation time, and keypair persistence
+convert/                           wire to Go translation for Number and Curve, shared by clients
 server/                            ConnectRPC handlers over the pure packages
 gen/                               buf generated Go code, regenerated with make generate
 cmd/game/                          the server binary
