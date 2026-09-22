@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package dev.unmango.game.v1alpha1;
+
+// Number is a value with no upper bound, stored as mantissa and exponent.
+// A normalized Number has 1 <= |mantissa| < 10, or is zero with exponent 0.
+message Number {
+  double mantissa = 1;
+  int64 exponent = 2;
+}
