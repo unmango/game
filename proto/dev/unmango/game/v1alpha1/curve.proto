@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package dev.unmango.game.v1alpha1;
+
+import "dev/unmango/game/v1alpha1/number.proto";
+
+// Curve maps an integer position n to a Number.
+// Games author curve parameters; the framework evaluates them.
+message Curve {
+  oneof family {
+    Linear linear = 1;
+    Exponential exponential = 2;
+    Polynomial polynomial = 3;
+    Logistic logistic = 4;
+  }
+}
+
+// Linear is intercept + slope * n.
+message Linear {
+  Number intercept = 1;
+  Number slope = 2;
+}
+
+// Exponential is base * growth^n.
+message Exponential {
+  Number base = 1;
+  double growth = 2;
+}
+
+// Polynomial is scale * n^degree + offset.
+message Polynomial {
+  Number scale = 1;
+  double degree = 2;
+  Number offset = 3;
+}
+
+// Logistic is max / (1 + e^(-steepness * (n - midpoint))).
+message Logistic {
+  Number max = 1;
+  double steepness = 2;
+  double midpoint = 3;
+}
