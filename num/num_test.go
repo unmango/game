@@ -153,6 +153,8 @@ var _ = Describe("Number", func() {
 			Entry("small", num.FromInt(1500), "1500"),
 			Entry("scientific", num.New(1.234, 45), "1.23e45"),
 			Entry("negative", num.New(-1.234, 45), "-1.23e45"),
+			Entry("rounding carries into the exponent", num.New(9.999, 45), "1.00e46"),
+			Entry("negative rounding carries", num.New(-9.999, 45), "-1.00e46"),
 		)
 
 		DescribeTable("Short",
@@ -165,6 +167,9 @@ var _ = Describe("Number", func() {
 			Entry("millions", num.New(1.5, 6), "1.50M"),
 			Entry("quadrillions", num.New(1.234, 15), "1.23Qa"),
 			Entry("beyond table", num.New(1.234, 45), "1.23e45"),
+			Entry("rounding stays in the suffix", num.New(9.999, 3), "10.0K"),
+			Entry("rounding carries into the next suffix", num.New(9.9996, 5), "1.00M"),
+			Entry("rounding carries out of units", num.New(9.9996, 2), "1.00K"),
 			Entry("fraction", num.FromFloat(0.5), "0.5"),
 		)
 	})

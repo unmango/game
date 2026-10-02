@@ -237,7 +237,14 @@ func (n Number) String() string {
 	if n.Exponent >= 0 && n.Exponent < 6 {
 		return strconv.FormatFloat(n.Float64(), 'f', -1, 64)
 	}
-	return strconv.FormatFloat(n.Mantissa, 'f', 2, 64) + "e" + strconv.FormatInt(n.Exponent, 10)
+	r := n.round3()
+	return strconv.FormatFloat(r.Mantissa, 'f', 2, 64) + "e" + strconv.FormatInt(r.Exponent, 10)
+}
+
+// round3 rounds the mantissa to three significant digits and renormalizes, so
+// a carry such as 9.999 to 10.0 moves into the exponent before formatting.
+func (n Number) round3() Number {
+	return New(math.Round(n.Mantissa*100)/100, n.Exponent)
 }
 
 var suffixes = []string{"", "K", "M", "B", "T", "Qa", "Qi", "Sx", "Sp", "Oc", "No", "Dc"}
@@ -251,11 +258,12 @@ func (n Number) Short() string {
 	if n.Exponent < 0 {
 		return strconv.FormatFloat(n.Float64(), 'g', 3, 64)
 	}
-	idx := int(n.Exponent / 3)
+	r := n.round3()
+	idx := int(r.Exponent / 3)
 	if idx >= len(suffixes) {
 		return n.String()
 	}
-	rem := int(n.Exponent % 3)
-	v := n.Mantissa * math.Pow(10, float64(rem))
+	rem := int(r.Exponent % 3)
+	v := r.Mantissa * math.Pow(10, float64(rem))
 	return strconv.FormatFloat(v, 'f', 2-rem, 64) + suffixes[idx]
 }
