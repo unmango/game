@@ -46,14 +46,14 @@ Three operations cover the incremental genre:
 | --- | --- |
 | `Evaluate(curve, n)` | what does the nth item cost, or produce |
 | `Cumulative(curve, from, to)` | what do items `from` through `to - 1` cost together |
-| `Invert(curve, budget)` | how many items can this budget buy starting at `from` |
+| `Invert(curve, from, budget)` | how many items can this budget buy starting at `from` |
 
 Parameters may be fixed by the game or derived from a sub-seed, which is how rarity and variance enter without the framework knowing what is rare.
 
 ### Numbers
 
 All numbers on the wire are mantissa and exponent (see ADR 0004).
-There is no upper bound on progression, so there is no upper bound on the type.
+The `int64` exponent bounds magnitude near `10^(9.2e18)`, far beyond any value a game reaches.
 
 ### Time
 

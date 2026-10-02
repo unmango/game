@@ -6,7 +6,7 @@ Accepted
 
 ## Context
 
-Progression has no upper bound, so the numeric type cannot have one either.
+Progression has no upper bound, so the numeric type needs a range no game can exhaust.
 `float64` overflows near `1e308`, which some incrementals reach.
 Arbitrary precision types are exact but slow, awkward on the wire, and unavailable to browser clients without a library.
 
@@ -19,5 +19,6 @@ This is the only numeric type used across the wire for game values.
 ## Consequences
 
 - Precision is about fifteen significant digits, which is enough to display and compare.
+- Magnitude is bounded by the `int64` exponent at about `10^(9.2e18)`, which is finite but out of reach in practice.
 - Adding numbers many orders of magnitude apart drops the smaller one, which is the expected behavior for the genre.
 - Clients in any language can implement the type in a few dozen lines.

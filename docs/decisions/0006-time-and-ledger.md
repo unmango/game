@@ -20,6 +20,7 @@ The result is the same function either way.
 Progress is stored as an append-only ledger of events, each with a path, a timestamp, and a positive delta.
 State is the fold of the ledger.
 The ledger is implemented after the calculator, as `LedgerService` with `Append`, `Fold`, and `Stream`.
+A successful `Append` means the event is durable: it survives a crash or restart once the call returns.
 
 ## Consequences
 

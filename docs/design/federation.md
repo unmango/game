@@ -9,7 +9,8 @@ Each server is one player.
 A game may register endpoints on the server that accept values from other servers.
 The framework's contribution is the exchange rate: a pure function of both servers' public parameters.
 
-Because the rate is pure, an exchange can be computed offline by either party and verified by the other on the next connection.
+Because the rate is pure, an exchange can be computed offline by either party and verified by the other on the next connection, provided both use the same rate inputs.
+Which snapshot of level and rank that is remains open (see the last open question).
 The ledger records the exchange as an ordinary delta.
 
 ## Public parameters
