@@ -24,10 +24,14 @@ Candidates for the rate function, all readable without authentication:
 | rank | a game defined ordering across known peers |
 | seed distance | a hash distance between root seeds, for flavor rather than balance |
 
+## Identity and discovery
+
+A server is identified by its ed25519 public key.
+A player may bind an atproto DID to it, which gives the server a human readable handle and makes it discoverable by resolving that handle (see ADR 0007).
+Games may still pass peer addresses explicitly, which is the only option for an unbound server.
+
 ## Open questions
 
-- Whether identity is the ed25519 public key alone or a key plus a human readable handle.
-- Whether a server discovers peers, or games pass peer addresses explicitly.
 - Whether an exchange is signed by both parties or only by the sender.
 - How a game declares which paths are exchangeable and which are private.
 - Whether rate inputs are pinned at offer time or evaluated at settle time.
