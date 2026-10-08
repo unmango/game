@@ -10,12 +10,13 @@ Games built on it (the first is `github.com/UnstoppableMango/ouranosis`) hold th
 This repo holds only the math and the identity behind it.
 
 The design is described in `docs/design/` and the decisions behind it in `docs/decisions/`.
+The architecture model in `docs/architecture/` draws the same system as a LikeC4 model (ADR 0007); update it when a service, package, or consumer is added.
 Read `docs/design/overview.md` before changing the API surface.
 
 ## Commands
 
 All development tasks go through `make`.
-The dev shell (`direnv allow` or `nix develop`) supplies `go`, `buf`, `ginkgo`, and `gomod2nix`.
+The dev shell (`direnv allow` or `nix develop`) supplies `go`, `buf`, `ginkgo`, `gomod2nix`, and `likec4`.
 
 ```sh
 make            # nix build plus buf build
@@ -24,6 +25,8 @@ make check      # nix flake check plus buf lint
 make fmt        # nix fmt (treefmt: gofmt, nixfmt, actionlint)
 make tidy       # go mod tidy and regenerate nix/gomod2nix.toml
 make generate   # buf generate into gen/
+make arch       # preview the LikeC4 architecture model
+make arch-check # validate the LikeC4 model (nix flake check runs it too)
 make update     # nix flake update
 ```
 
@@ -41,6 +44,7 @@ convert/                           wire to Go translation for Number and Curve, 
 server/                            ConnectRPC handlers over the pure packages
 gen/                               buf generated Go code, regenerated with make generate
 cmd/game/                          the server binary
+docs/architecture/                 LikeC4 model of the framework and its games
 docs/design/                       design documents
 docs/decisions/                    architecture decision records
 nix/                               package derivation and gomod2nix lock

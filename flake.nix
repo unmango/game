@@ -20,6 +20,15 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.inputs.systems.follows = "systems";
     };
+
+    unmango-pkgs = {
+      url = "github:unmango/pkgs";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.systems.follows = "systems";
+      inputs.flake-parts.follows = "flake-parts";
+      inputs.gomod2nix.follows = "gomod2nix";
+      inputs.treefmt-nix.follows = "treefmt-nix";
+    };
   };
 
   outputs =
@@ -33,10 +42,16 @@
       ];
 
       perSystem =
-        { pkgs, system, ... }:
+        {
+          pkgs,
+          system,
+          inputs',
+          ...
+        }:
         let
           version = "0.0.1";
           go = pkgs.go_1_27;
+          inherit (inputs'.unmango-pkgs.packages) likec4;
         in
         {
           _module.args.pkgs = import inputs.nixpkgs {
@@ -62,8 +77,15 @@
               protoc-gen-connect-go
               gnumake
               nixfmt
-            ]);
+            ])
+            ++ [ likec4 ];
           };
+
+          checks.architecture = pkgs.runCommand "architecture" { nativeBuildInputs = [ likec4 ]; } ''
+            export HOME="$TMPDIR"
+            likec4 validate ${./docs/architecture}
+            touch $out
+          '';
 
           treefmt.programs = {
             actionlint.enable = true;

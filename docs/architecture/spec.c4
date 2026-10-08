@@ -1,0 +1,30 @@
+// Element kinds, tags, and styles shared by every view.
+specification {
+  element actor {
+    style {
+      shape person
+    }
+  }
+  element system
+  element container
+  element component
+  element library {
+    style {
+      shape component
+    }
+  }
+  element store {
+    style {
+      shape storage
+    }
+  }
+  element registry {
+    style {
+      shape storage
+      color secondary
+    }
+  }
+
+  // Designed but not implemented yet.
+  tag planned
+}

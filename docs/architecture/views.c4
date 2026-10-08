@@ -1,0 +1,53 @@
+views {
+  view index {
+    title 'Landscape'
+    description 'The framework, its first game, and what sits around them'
+
+    include *
+    include peer, bsr
+
+    style element.tag = #planned {
+      border dashed
+      opacity 40%
+    }
+  }
+
+  view framework of framework {
+    title 'unmango/game'
+    description 'Pure packages inside, I/O only in identity and the server'
+
+    include *
+    include ouranosis.tui
+    exclude bsr
+
+    style element.tag = #planned {
+      border dashed
+      opacity 40%
+    }
+  }
+
+  view server of framework.server {
+    title 'game server'
+    description 'Services on the one listener, including the planned ones'
+
+    include *
+
+    style element.tag = #planned {
+      border dashed
+      opacity 40%
+    }
+  }
+
+  view ouranosis of ouranosis.tui {
+    title 'ouranosis TUI'
+    description 'How the first game consumes the framework'
+
+    include *
+    include ouranosis.saveFile
+
+    style element.tag = #planned {
+      border dashed
+      opacity 40%
+    }
+  }
+}

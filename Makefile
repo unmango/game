@@ -1,3 +1,6 @@
+LIKEC4    ?= likec4
+ARCH_DIR  ?= docs/architecture
+
 PROTO_SRC ?= $(shell buf ls-files)
 GO_SRC    ?= $(shell find . -name '*.go')
 
@@ -20,6 +23,16 @@ check lint:
 
 format fmt:
 	nix fmt
+	${LIKEC4} format ${ARCH_DIR}
+
+arch:
+	${LIKEC4} start ${ARCH_DIR}
+
+arch-check:
+	${LIKEC4} validate ${ARCH_DIR}
+
+arch-build:
+	${LIKEC4} build -o ${ARCH_DIR}/dist ${ARCH_DIR}
 
 tidy: go.sum nix/gomod2nix.toml
 

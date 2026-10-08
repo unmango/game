@@ -61,6 +61,27 @@
         "type": "github"
       }
     },
+    "nix2container": {
+      "inputs": {
+        "nixpkgs": [
+          "unmango-pkgs",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1790918497,
+        "narHash": "sha256-tHQzYcg3iAVhUE5dtRL5KweJXbcZ7UEQG/XFGsHtQsI=",
+        "owner": "nlewo",
+        "repo": "nix2container",
+        "rev": "4e83e6724dcb9eb1b3e855426fa4c8cd19f5ce5a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nlewo",
+        "repo": "nix2container",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1790822859,
@@ -83,7 +104,8 @@
         "gomod2nix": "gomod2nix",
         "nixpkgs": "nixpkgs",
         "systems": "systems",
-        "treefmt-nix": "treefmt-nix"
+        "treefmt-nix": "treefmt-nix",
+        "unmango-pkgs": "unmango-pkgs"
       }
     },
     "systems": {
@@ -118,6 +140,39 @@
       "original": {
         "owner": "numtide",
         "repo": "treefmt-nix",
+        "type": "github"
+      }
+    },
+    "unmango-pkgs": {
+      "inputs": {
+        "flake-parts": [
+          "flake-parts"
+        ],
+        "gomod2nix": [
+          "gomod2nix"
+        ],
+        "nix2container": "nix2container",
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "systems": [
+          "systems"
+        ],
+        "treefmt-nix": [
+          "treefmt-nix"
+        ]
+      },
+      "locked": {
+        "lastModified": 1791383285,
+        "narHash": "sha256-GAPBeyQYhoq0IAIfx7M/a24zGPBEs7hTgyEKxLj9vgg=",
+        "owner": "unmango",
+        "repo": "pkgs",
+        "rev": "3df70cde8c66176143ad1982ff12c2f21892b9f9",
+        "type": "github"
+      },
+      "original": {
+        "owner": "unmango",
+        "repo": "pkgs",
         "type": "github"
       }
     }
