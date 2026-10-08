@@ -1,0 +1,116 @@
+// What exists and how it talks. Planned parts carry #planned.
+model {
+  player = actor 'Player' {
+    description 'Plays a game built on the framework'
+  }
+
+  bsr = registry 'Buf Schema Registry' {
+    description 'Hosts buf.build/unmango/game, the public proto contract'
+  }
+
+  framework = system 'unmango/game' {
+    description 'One server per player: owns a root seed and answers numeric questions'
+
+    server = container 'game server' {
+      description 'cmd/game: serves every service on one h2c listener'
+      technology 'Go, ConnectRPC'
+
+      calculator = component 'CalculatorService' {
+        description 'Derive, Evaluate, Cumulative, Invert, Advance'
+      }
+      identityService = component 'IdentityService' {
+        description 'GetIdentity: public key and creation time'
+      }
+      ledger = component 'LedgerService' {
+        #planned
+        description 'Append, Fold, Stream (ADR 0006)'
+      }
+      exchange = component 'ExchangeService' {
+        #planned
+        description 'Rate, Offer, Settle (docs/design/federation.md)'
+      }
+    }
+
+    identityFile = store 'identity.json' {
+      description 'Root seed, creation time, ed25519 keypair'
+    }
+
+    num = library 'num' {
+      description 'Mantissa and exponent numbers (ADR 0004)'
+    }
+    seed = library 'seed' {
+      description 'Path addressed sub-seeds (ADR 0002)'
+    }
+    curve = library 'curve' {
+      description 'Curve families and their operations (ADR 0003)'
+    }
+    identity = library 'identity' {
+      description 'Loads or generates the identity file'
+    }
+    convert = library 'convert' {
+      description 'Wire to Go translation, shared by clients'
+    }
+    proto = library 'proto contract' {
+      description 'proto/dev/unmango/game/v1alpha1 and generated gen/'
+      technology 'protobuf'
+    }
+
+    server.calculator -> seed 'derives sub-seeds'
+    server.calculator -> curve 'evaluates'
+    server.calculator -> convert 'decodes requests'
+    server.identityService -> identity 'reads'
+    identity -> identityFile 'persists'
+    curve -> num 'computes in'
+    convert -> num
+    convert -> curve
+    server -> proto 'implements'
+  }
+
+  ouranosis = system 'ouranosis' {
+    description 'World simulation game, the first consumer of the framework'
+
+    tui = container 'ouranosis TUI' {
+      description 'cmd/ouranosis'
+      technology 'Go, bubbletea'
+
+      client = component 'game client' {
+        description 'pkg/game: ConnectRPC client, with a local fallback'
+      }
+      character = component 'character' {
+        description 'pkg/character: the model and every framework path it uses'
+      }
+      training = component 'training' {
+        description 'pkg/training: the stat training sub-game'
+      }
+      save = component 'save' {
+        description 'pkg/save: JSON save until the ledger exists'
+      }
+
+      training -> character 'trains'
+      training -> client 'asks costs and rates'
+      save -> character 'persists'
+    }
+
+    saveFile = store 'save.json' {
+      description 'Character state under the user config directory'
+    }
+    tui.save -> saveFile 'writes'
+  }
+
+  peer = system 'Peer game server' {
+    #planned
+    description 'Another player\'s framework server'
+  }
+
+  player -> ouranosis.tui 'plays'
+  ouranosis.tui.client -> framework.server.calculator 'Derive, Evaluate, Invert, Advance' {
+    technology 'ConnectRPC'
+  }
+  ouranosis.tui.client -> framework.convert 'imports'
+  ouranosis.tui.training -> framework.curve 'authors curves'
+  ouranosis.tui.client -> framework.proto 'imports generated code'
+  framework.proto -> bsr 'published to'
+  framework.server.exchange -> peer 'exchanges values' {
+    #planned
+  }
+}

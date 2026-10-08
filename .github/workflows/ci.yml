@@ -20,3 +20,4 @@ jobs:
       - run: nix flake check --all-systems --option allow-import-from-derivation false
       - run: nix build
       - run: nix develop -c buf lint
+      - run: nix develop -c make arch-check

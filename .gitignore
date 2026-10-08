@@ -2,3 +2,4 @@
 !.vscode/extensions.json
 .envrc
 result
+docs/architecture/dist
