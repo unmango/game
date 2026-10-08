@@ -8,7 +8,7 @@ It answers one question in many forms: given this player's seed and this positio
 The framework does three things.
 
 1. **Identity.** A server is one player's root.
-   It holds a root seed, a creation time, and a keypair.
+   It holds a root seed, a creation time, a keypair, and optionally a bound atproto DID (see ADR 0007).
    Nothing else about the player is stored here.
 2. **Calculation.** Every price, rate, rarity, and scale factor is a pure function of the seed and the request.
    The server offers a small algebra of curves and derived seeds, and games compose them.
