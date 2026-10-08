@@ -1,4 +1,4 @@
-LIKEC4    ?= npx -y likec4@1.59.4
+LIKEC4    ?= likec4
 ARCH_DIR  ?= docs/architecture
 
 PROTO_SRC ?= $(shell buf ls-files)
@@ -20,7 +20,6 @@ update:
 check lint:
 	nix flake check
 	buf lint $?
-	$(MAKE) arch-check
 
 format fmt:
 	nix fmt

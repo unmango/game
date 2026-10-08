@@ -16,7 +16,7 @@ Read `docs/design/overview.md` before changing the API surface.
 ## Commands
 
 All development tasks go through `make`.
-The dev shell (`direnv allow` or `nix develop`) supplies `go`, `buf`, `ginkgo`, and `gomod2nix`.
+The dev shell (`direnv allow` or `nix develop`) supplies `go`, `buf`, `ginkgo`, `gomod2nix`, and `likec4`.
 
 ```sh
 make            # nix build plus buf build
@@ -26,7 +26,7 @@ make fmt        # nix fmt (treefmt: gofmt, nixfmt, actionlint)
 make tidy       # go mod tidy and regenerate nix/gomod2nix.toml
 make generate   # buf generate into gen/
 make arch       # preview the LikeC4 architecture model
-make arch-check # validate the LikeC4 model (also run by make check)
+make arch-check # validate the LikeC4 model (nix flake check runs it too)
 make update     # nix flake update
 ```
 

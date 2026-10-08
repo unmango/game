@@ -17,12 +17,13 @@ The architecture is a LikeC4 model in `docs/architecture/`.
 Designed but unimplemented parts carry the `#planned` tag and render dashed.
 The model covers the framework and its consumers, starting with ouranosis, because the framework's boundary is only meaningful against a game.
 
-The CLI is run with `npx` at a pinned version through `make arch`, `make arch-check`, and `make arch-build`, since LikeC4 is not packaged in nixpkgs; the dev shell supplies `nodejs`.
-CI validates the model, so a broken reference fails the build.
+LikeC4 is not packaged in nixpkgs, so the flake takes it from `github:unmango/pkgs`, which pins the version and patches it to run from the read-only store.
+The dev shell puts `likec4` on the path for `make arch`, `make arch-check`, and `make arch-build`.
+A flake check runs `likec4 validate` in the build sandbox, so `nix flake check` and CI fail on a broken reference.
 
 ## Consequences
 
 - The model is plain text and changes alongside the code it describes.
 - Rendered output is not committed; `make arch` previews it and `make arch-build` builds a static site into `docs/architecture/dist`.
-- Validation needs network access to fetch the CLI, which CI has and the nix build sandbox does not, so it runs outside `nix flake check`.
+- The LikeC4 version moves with the `unmango-pkgs` input; `make update` bumps it with the rest of the flake.
 - Consumers' internals appear here only as far as they touch the framework; each game owns the detail of its own model.
