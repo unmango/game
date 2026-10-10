@@ -11,6 +11,7 @@ This repo holds only the math and the identity behind it.
 
 The design is described in `docs/design/` and the decisions behind it in `docs/decisions/`.
 The architecture model in `docs/architecture/` draws the same system as a LikeC4 model (ADR 0007); update it when a service, package, or consumer is added.
+It is published to GitHub Pages from `main` by `.github/workflows/pages.yml`, built by `nix build .#architecture`; link new elements to their source and ADRs with absolute GitHub URLs.
 Read `docs/design/overview.md` before changing the API surface.
 
 ## Commands

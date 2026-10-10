@@ -29,6 +29,15 @@
       inputs.gomod2nix.follows = "gomod2nix";
       inputs.treefmt-nix.follows = "treefmt-nix";
     };
+
+    a2b = {
+      url = "github:UnstoppableMango/a2b";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.systems.follows = "systems";
+      inputs.flake-parts.follows = "flake-parts";
+      inputs.treefmt-nix.follows = "treefmt-nix";
+      inputs.mangopkgs.follows = "unmango-pkgs";
+    };
   };
 
   outputs =
@@ -44,6 +53,7 @@
       perSystem =
         {
           pkgs,
+          self',
           system,
           inputs',
           ...
@@ -52,6 +62,8 @@
           version = "0.0.1";
           go = pkgs.go_1_27;
           inherit (inputs'.unmango-pkgs.packages) likec4;
+          arch = inputs'.a2b.legacyPackages.lib.likec4;
+          archSrc = ./docs/architecture;
         in
         {
           _module.args.pkgs = import inputs.nixpkgs {
@@ -62,6 +74,15 @@
           };
 
           packages.default = pkgs.callPackage ./nix { inherit go version; };
+
+          # Relative base and hash history let one build serve from any URL prefix.
+          packages.architecture = arch.build {
+            name = "architecture";
+            src = archSrc;
+            base = "./";
+            useHashHistory = true;
+            title = "unmango/game architecture";
+          };
 
           devShells.default = pkgs.mkShellNoCC {
             packages = [
@@ -81,11 +102,11 @@
             ++ [ likec4 ];
           };
 
-          checks.architecture = pkgs.runCommand "architecture" { nativeBuildInputs = [ likec4 ]; } ''
-            export HOME="$TMPDIR"
-            likec4 validate ${./docs/architecture}
-            touch $out
-          '';
+          checks.architecture = arch.validate {
+            name = "architecture";
+            src = archSrc;
+          };
+          checks.architecture-site = self'.packages.architecture;
 
           treefmt.programs = {
             actionlint.enable = true;
