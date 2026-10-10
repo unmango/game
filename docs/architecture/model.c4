@@ -6,14 +6,20 @@ model {
 
   bsr = registry 'Buf Schema Registry' {
     description 'Hosts buf.build/unmango/game, the public proto contract'
+    link https://buf.build/unmango/game 'buf.build/unmango/game'
   }
 
   framework = system 'unmango/game' {
     description 'One server per player: owns a root seed and answers numeric questions'
+    link https://github.com/unmango/game 'repository'
+    link https://github.com/unmango/game/blob/main/docs/design/overview.md 'design overview'
 
     server = container 'game server' {
       description 'cmd/game: serves every service on one h2c listener'
       technology 'Go, ConnectRPC'
+      link https://github.com/unmango/game/tree/main/cmd/game 'cmd/game'
+      link https://github.com/unmango/game/tree/main/server 'server'
+      link https://github.com/unmango/game/blob/main/docs/decisions/0005-connectrpc.md 'ADR 0005'
 
       calculator = component 'CalculatorService' {
         description 'Derive, Evaluate, Cumulative, Invert, Advance'
@@ -24,35 +30,48 @@ model {
       ledger = component 'LedgerService' {
         #planned
         description 'Append, Fold, Stream (ADR 0006)'
+        link https://github.com/unmango/game/blob/main/docs/decisions/0006-time-and-ledger.md 'ADR 0006'
       }
       exchange = component 'ExchangeService' {
         #planned
         description 'Rate, Offer, Settle (docs/design/federation.md)'
+        link https://github.com/unmango/game/blob/main/docs/design/federation.md 'federation design'
       }
     }
 
     identityFile = store 'identity.json' {
       description 'Root seed, creation time, ed25519 keypair'
+      link https://github.com/unmango/game/blob/main/docs/decisions/0001-calculator-with-identity.md 'ADR 0001'
     }
 
     num = library 'num' {
       description 'Mantissa and exponent numbers (ADR 0004)'
+      link https://github.com/unmango/game/tree/main/num 'source'
+      link https://github.com/unmango/game/blob/main/docs/decisions/0004-mantissa-exponent-numbers.md 'ADR 0004'
     }
     seed = library 'seed' {
       description 'Path addressed sub-seeds (ADR 0002)'
+      link https://github.com/unmango/game/tree/main/seed 'source'
+      link https://github.com/unmango/game/blob/main/docs/decisions/0002-path-derived-seeds.md 'ADR 0002'
     }
     curve = library 'curve' {
       description 'Curve families and their operations (ADR 0003)'
+      link https://github.com/unmango/game/tree/main/curve 'source'
+      link https://github.com/unmango/game/blob/main/docs/decisions/0003-curves-as-knobs.md 'ADR 0003'
     }
     identity = library 'identity' {
       description 'Loads or generates the identity file'
+      link https://github.com/unmango/game/tree/main/identity 'source'
+      link https://github.com/unmango/game/blob/main/docs/decisions/0001-calculator-with-identity.md 'ADR 0001'
     }
     convert = library 'convert' {
       description 'Wire to Go translation, shared by clients'
+      link https://github.com/unmango/game/tree/main/convert 'source'
     }
     proto = library 'proto contract' {
       description 'proto/dev/unmango/game/v1alpha1 and generated gen/'
       technology 'protobuf'
+      link https://github.com/unmango/game/tree/main/proto/dev/unmango/game/v1alpha1 'source'
     }
 
     server.calculator -> seed 'derives sub-seeds'
@@ -68,22 +87,28 @@ model {
 
   ouranosis = system 'ouranosis' {
     description 'World simulation game, the first consumer of the framework'
+    link https://github.com/UnstoppableMango/ouranosis 'repository'
 
     tui = container 'ouranosis TUI' {
       description 'cmd/ouranosis'
       technology 'Go, bubbletea'
+      link https://github.com/UnstoppableMango/ouranosis/tree/main/cmd/ouranosis 'source'
 
       client = component 'game client' {
         description 'pkg/game: ConnectRPC client, with a local fallback'
+        link https://github.com/UnstoppableMango/ouranosis/tree/main/pkg/game 'source'
       }
       character = component 'character' {
         description 'pkg/character: the model and every framework path it uses'
+        link https://github.com/UnstoppableMango/ouranosis/tree/main/pkg/character 'source'
       }
       training = component 'training' {
         description 'pkg/training: the stat training sub-game'
+        link https://github.com/UnstoppableMango/ouranosis/tree/main/pkg/training 'source'
       }
       save = component 'save' {
         description 'pkg/save: JSON save until the ledger exists'
+        link https://github.com/UnstoppableMango/ouranosis/tree/main/pkg/save 'source'
       }
 
       training -> character 'trains'
