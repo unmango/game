@@ -60,3 +60,17 @@ Do not add server-side state beyond identity without an ADR; the ledger is the o
 
 Tests use Ginkgo and Gomega.
 Golden values for seed derivation are part of the contract; a change to them is a breaking change for every game built on the framework.
+
+## Agent skills
+
+### Issue tracker
+
+Issues live in this repo's GitHub Issues. See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+The five default labels: `needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`. See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Single-context, with ADRs in `docs/decisions/`. See `docs/agents/domain.md`.
